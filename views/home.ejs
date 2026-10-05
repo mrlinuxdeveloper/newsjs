@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <title><%= title %></title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+        *{ box-sizing:border-box; }
+
+        body{
+            margin:0;
+            background:#FAF7F1;
+            font-family:'Vazirmatn', sans-serif;
+            color:#1E1B16;
+        }
+
+        .page-wrap{
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 40px 20px 70px;
+        }
+
+        .page-eyebrow{
+            font-family:'JetBrains Mono', monospace;
+            font-size:12px;
+            letter-spacing:2px;
+            color:#8A8175;
+            margin-bottom:6px;
+        }
+
+        .page-title{
+            font-size:26px;
+            font-weight:800;
+            margin-bottom:28px;
+        }
+
+        .empty-state{
+            text-align:center;
+            color:#8A8175;
+            background:#fff;
+            border:1px dashed #E4DED2;
+            border-radius:16px;
+            padding:40px 20px;
+            font-size:14px;
+        }
+
+        /* ===== گرید کارت‌های خبر ===== */
+        .news-grid{
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .news-card{
+            background:#fff;
+            border:1px solid #E4DED2;
+            border-radius:16px;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            box-shadow:0 8px 22px rgba(30,27,22,.04);
+            transition: box-shadow .2s ease, transform .2s ease;
+        }
+
+        .news-card:hover{
+            box-shadow:0 16px 34px rgba(30,27,22,.09);
+            transform: translateY(-3px);
+        }
+
+        /* ===== جایگاه عکس (فعلاً Placeholder) ===== */
+        .news-card .thumb{
+            position:relative;
+            width:100%;
+            height:170px;
+            background: linear-gradient(135deg, #E4EFEA 0%, #FAF7F1 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#B7AF9F;
+            font-size:30px;
+            flex-shrink:0;
+        }
+
+        /*
+            وقتی فیلد عکس رو به جدول blogs اضافه کردی،
+            این div رو با تگ img جایگزین کن:
+            <img src=" item.image " class="thumb" alt=" item.name ">
+            و استایل .thumb img { width:100%; height:100%; object-fit:cover; } رو اضافه کن
+        */
+
+        .news-card .body{
+            padding: 16px 18px 18px;
+            display:flex;
+            flex-direction:column;
+            flex:1;
+        }
+
+        .news-card .meta-row{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-family:'JetBrains Mono', monospace;
+            font-size:10.5px;
+            color:#8A8175;
+            margin-bottom:10px;
+        }
+
+        .news-card .meta-row .dot{
+            width:3px; height:3px;
+            border-radius:50%;
+            background:#C8BFA8;
+        }
+
+        .news-card .news-title{
+            font-size:15.5px;
+            font-weight:700;
+            margin: 0 0 8px;
+            line-height:1.6;
+        }
+
+        .news-card .news-excerpt{
+            font-size:13px;
+            line-height:1.8;
+            color:#6b645a;
+            margin:0 0 16px;
+            flex:1;
+            display:-webkit-box;
+            -webkit-line-clamp:3;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+        }
+
+        /* ===== ردیف پایین: لایک / کامنت ===== */
+        .news-card .footer-row{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding-top:12px;
+            border-top:1px solid #F0EBDF;
+        }
+
+        .news-card .actions{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+        .news-card .action-btn{
+            display:flex;
+            align-items:center;
+            gap:5px;
+            background:none;
+            border:none;
+            cursor:pointer;
+            color:#8A8175;
+            font-family:'Vazirmatn', sans-serif;
+            font-size:12.5px;
+            padding:0;
+            transition:.18s;
+        }
+
+        .news-card .action-btn i{ font-size:15px; }
+
+        .news-card .action-btn:hover{ color:#2E5E4E; }
+
+        .news-card .like-btn.liked{ color:#B24C3C; }
+        .news-card .like-btn.liked i::before{ content:"\f415"; } /* bi-heart-fill */
+
+        .news-card .read-more{
+            font-size:12px;
+            font-weight:700;
+            color:#2E5E4E;
+            text-decoration:none;
+        }
+
+        @media (max-width: 920px){
+            .news-grid{ grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 620px){
+            .news-grid{ grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<%- include('./header.ejs') %>
+
+<div class="page-wrap">
+    <div class="page-eyebrow">NEWS &amp; UPDATES</div>
+    <div class="page-title">آخرین اخبار</div>
+
+    <% if (!result || result.length === 0) { %>
+        <div class="empty-state">هنوز خبری ثبت نشده است.</div>
+    <% } else { %>
+        <div class="news-grid">
+            <% result.forEach((item) => { %>
+                <div class="news-card">
+
+                    <!-- جایگاه عکس — فعلاً Placeholder، بعداً با <img> واقعی جایگزین کن -->
+                    <div class="thumb">
+                        <i class="bi bi-image">
+                            <img src="/image/<%=item.image%> " class="thumb" alt=" this is image ">
+                        </i>
+                    </div>
+
+                    <div class="body">
+                        <div class="meta-row">
+                            <span>اخبار</span>
+                            <span class="dot"></span>
+                            <span>امروز</span>
+                            <!-- وقتی فیلد تاریخ/دسته داشتی، اینجا جایگزینشون کن -->
+                        </div>
+
+                        <h3 class="news-title"><%= item.name %></h3>
+                        <p class="news-excerpt"><%= item.content %></p>
+
+                        <div class="footer-row">
+                            <div class="actions">
+                                <!-- دکمه لایک — فعلاً فقط UI، بعداً به route واقعی وصلش کن -->
+                                <button type="button" class="action-btn like-btn" data-id="<%= item.id %>">
+                                    <i class="bi bi-heart"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+
+                                <!-- شمارنده کامنت — فعلاً صفر، بعداً از دیتابیس پر کن -->
+                                <span class="action-btn" style="cursor:default;">
+                                    <i class="bi bi-chat"></i>
+                                    <span class="comment-count">0</span>
+                                </span>
+                            </div>
+
+                            <a href="/blog/show/<%= item.id %>" class="read-more">ادامه مطلب ←</a>
+                        </div>
+                    </div>
+
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+</div>
+
+<script>
+    // فقط رفتار بصری موقت — لایک واقعی هنوز به بک‌اند وصل نیست
+    document.querySelectorAll('.like-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const countEl = btn.querySelector('.like-count');
+            let count = parseInt(countEl.textContent, 10);
+
+            if (btn.classList.contains('liked')) {
+                btn.classList.remove('liked');
+                countEl.textContent = count - 1;
+            } else {
+                btn.classList.add('liked');
+                countEl.textContent = count + 1;
+            }
+
+            // TODO: وقتی route لایک رو ساختی، اینجا fetch بزن:
+            // fetch(`/blog/${btn.dataset.id}/like`, { method: 'POST' })
+        });
+    });
+</script>
+
+</body>
+</html>

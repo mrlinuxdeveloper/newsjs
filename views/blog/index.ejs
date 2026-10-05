@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ایجاد خبر جدید</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .success-alert {
+            max-width: 480px;
+            margin: 0 auto 18px;
+            background: #E4EFEA;
+            color: #2E5E4E;
+            border: 1px solid rgba(46, 94, 78, .15);
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .blog-form {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FAF7F1;
+            font-family: 'Vazirmatn', sans-serif;
+            color: #1E1B16;
+            padding: 30px 16px;
+        }
+
+        .blog-form-card {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            border: 1px solid #E4DED2;
+            border-radius: 16px;
+            padding: 30px 28px;
+            box-shadow: 0 10px 30px rgba(30, 27, 22, .06);
+        }
+
+        .blog-form-card h2 {
+            margin: 0 0 22px;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8A8175;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #E4DED2;
+            border-radius: 9px;
+            background: #FCFBF8;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            color: #1E1B16;
+            outline: none;
+            transition: .2s;
+        }
+
+        .form-group textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2E5E4E;
+            box-shadow: 0 0 0 3px rgba(46, 94, 78, .12);
+            background: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #2E5E4E;
+            color: #fff;
+            font-size: 14.5px;
+            font-weight: 700;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-submit:hover {
+            opacity: .9;
+        }
+    </style>
+</head>
+<body>
+<%- include('../header.ejs') %>
+
+<% if (success) { %>
+    <div class="success-alert" id="successAlert">
+        خبر با موفقیت ثبت شد ✅
+    </div>
+<% } %>
+
+<div class="blog-form">
+    <div class="blog-form-card">
+        <h2>ایجاد خبر جدید</h2>
+
+        <form action="/blog/create" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label for="name">عنوان</label>
+                <input type="text" id="name" name="name" placeholder="عنوان خبر را وارد کنید">
+            </div>
+            <div class="form-group">
+                <label for="image">تصویر</label>
+                <input type="file" id="image" name="image" placeholder="تصویر خبر را بارگذاری کنید..">
+            </div>
+
+            <div class="form-group">
+                <label for="content">متن خبر</label>
+                <textarea id="content" name="content" placeholder="متن خبر را بنویسید..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">ارسال</button>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    const alertBox = document.getElementById('successAlert');
+    if (alertBox) {
+        setTimeout(() => {
+            alertBox.style.transition = 'opacity .5s ease';
+            alertBox.style.opacity = '0';
+            setTimeout(() => alertBox.remove(), 500);
+        }, 4000);
+    }
+</script>
+</body>
+</html>
