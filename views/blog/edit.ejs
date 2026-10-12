@@ -1,0 +1,122 @@
+<style>
+    .edit-form-container {
+        max-width: 650px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        font-family: Vazirmatn, Tahoma, sans-serif;
+    }
+
+    .edit-form-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 140px;
+    }
+
+    .current-image {
+        margin-top: 8px;
+    }
+
+    .current-image img {
+        border-radius: 8px;
+        border: 1px solid #eee;
+        max-width: 180px;
+    }
+
+    .form-group input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
+        background: #fafafa;
+        cursor: pointer;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: #4f46e5;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+        background: #4338ca;
+    }
+</style>
+
+<div class="edit-form-container">
+    <h2>ویرایش بلاگ</h2>
+
+    <form action="/blog/update/<%= blog.id %>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>عنوان:</label>
+            <input type="text" name="name" value="<%= blog.name %>" required>
+        </div>
+
+        <div class="form-group">
+            <label>محتوا:</label>
+            <textarea name="content" rows="8"><%= blog.content %></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>عکس فعلی:</label>
+            <div class="current-image">
+                <% if (blog.image) { %>
+                    <img src="/image/<%= blog.image %>" alt="عکس فعلی">
+                <% } else { %>
+                    <span style="color: #888;">عکسی وجود ندارد</span>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>عکس جدید (اختیاری):</label>
+            <input type="file" name="image" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn-submit">ذخیره تغییرات</button>
+    </form>
+</div>

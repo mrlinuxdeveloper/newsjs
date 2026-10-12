@@ -10,6 +10,6 @@ router.post('/create', Upload.single('image'), Create);
 router.get('/edit/:id', Edit);
 router.get('/show/:id', Show);
 router.post('/delete/:id', Delete);
-router.patch('/update/:id', Update);
+router.post('/update/:id',Upload.single('image') ,Update);
 
 module.exports = router;

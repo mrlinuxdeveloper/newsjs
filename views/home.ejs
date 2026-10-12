@@ -5,7 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/dest/css/bootstrap.css">
     <title><%= title %></title>
 
     <style>
@@ -236,6 +237,10 @@
                             </div>
 
                             <a href="/blog/show/<%= item.id %>" class="read-more">ادامه مطلب ←</a>
+                            <a href="/blog/edit/<%= item.id %>" class="text-bg-danger text-decoration-none p-2">ویرایش</a>
+                            <form action="/blog/delete/<%= item.id%>" method="post">
+                                <button type="submit" >حذف</button>
+                            </form>
                         </div>
                     </div>
 
@@ -265,6 +270,7 @@
         });
     });
 </script>
+<script src="/dest/js/bootstrap.js"></script>
 
 </body>
 </html>
